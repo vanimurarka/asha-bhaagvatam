@@ -71,11 +71,19 @@
             @endif
 
             <div class="content">
-                @foreach ($books as $book)
-                    {{ $book->nameE }}
-                    @foreach ($book->chapters as $chapter)
-                        {{$chapter->nameE}}
-                    @endforeach
+                @foreach ($lines as $line)
+                    @if (($line->type == 'B') && ($line->lineNumber == 1))
+                        <br>
+                    @endif
+                    {{ $line->text1 }}
+                    @if (($line->type == 'B') || ($line->type == 'PS'))
+                        -- 
+                        {{$line->text2}}
+                    @endif
+                    <br>
+                    @if ($line->type == 'E')
+                        <br><br>
+                    @endif
                 @endforeach
             </div>
         </div>

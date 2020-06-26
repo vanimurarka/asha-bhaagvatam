@@ -12,9 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	$books = App\Book::with('chapters')->get();
+    return view('welcome',['books' => $books]);
 });
 
-Auth::routes();
+Route::get('/chapter/{chapterid}', function ($chapterid) {
+	$lines = App\ChapterText::where('chapterId',$chapterid)->get();
+    return view('chapter',['lines' => $lines]);
+});
+
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
