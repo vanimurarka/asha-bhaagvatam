@@ -71,10 +71,12 @@
             @endif
 
             <div class="content">
+                <h1>Bhaagvatam First Step</h1>
+
                 @foreach ($books as $book)
                     {{ $book->nameE }}
                     @foreach ($book->chapters as $chapter)
-                        {{$chapter->nameE}}
+                        <a href="{{ route('chapter', ['chapterid' => $chapter->id]) }}">{{$chapter->nameE}}</a>
                     @endforeach
                 @endforeach
             </div>

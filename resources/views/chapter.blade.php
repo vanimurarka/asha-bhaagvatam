@@ -72,16 +72,16 @@
 
             <div class="content">
                 @foreach ($lines as $line)
-                    @if (($line->type == 'B') && ($line->lineNumber == 1))
+                    @if (($line->type == '5-B') && ($line->lineNumber == 1))
                         <br>
                     @endif
                     {{ $line->text1 }}
-                    @if (($line->type == 'B') || ($line->type == 'PS'))
+                    @if (($line->type == '5-B') || ($line->type == '3-PS'))
                         -- 
                         {{$line->text2}}
                     @endif
                     <br>
-                    @if ($line->type == 'E')
+                    @if (($line->type == '6-E') || ($line->type == '2-CT'))
                         <br><br>
                     @endif
                 @endforeach

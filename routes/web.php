@@ -17,9 +17,12 @@ Route::get('/', function () {
 });
 
 Route::get('/chapter/{chapterid}', function ($chapterid) {
-	$lines = App\ChapterText::where('chapterId',$chapterid)->get();
+	$lines = App\ChapterText::where('chapterId',$chapterid)
+				->orderBy("number")
+				->orderBy("type")
+				->orderBy("lineNumber")->get();
     return view('chapter',['lines' => $lines]);
-});
+})->name('chapter');
 
 Auth::routes(['register' => false]);
 
