@@ -78,6 +78,7 @@
                     @foreach ($book->chapters as $chapter)
                         <a href="{{ route('chapter', ['chapterid' => $chapter->id]) }}">{{$chapter->nameE}}</a>
                     @endforeach
+                    <br>
                 @endforeach
             </div>
         </div>
