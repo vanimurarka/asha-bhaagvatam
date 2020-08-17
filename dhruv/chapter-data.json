@@ -1,0 +1,26 @@
+chapterText: [
+	{
+		id: 55,
+		type: '4-S', // possible values: 1-MT, 2-BT, 3-CT, 3-PS, 4-S, 5-B, 6-E
+		// 1-MT: bhaagvatam title
+		// 2-BT: book title
+		// 3-CT: chapter title
+		// 3-PS: pre-shloka, eg. 'Narada said', may or maynot be there
+		//				if present will have sanskrit and english text
+		// 4-S: actual shloka text, text2 will be empty
+		// 5-B: word meaning breakup -- table, text1 and text2 will be given
+		// 6-E: English synonpsis
+		shlokaNumber: 2,
+		lineNumber: 2,
+		text1: 'संस्कृत में कुछ', // sanskrit
+		text2: '' // english
+	},
+	{
+		id: 53,
+		type: '5-B', // possible values: 1-MT, 2-BT, 3-CT, 3-PS, 4-S, 5-B, 6-E
+		shlokaNumber: 2,
+		lineNumber: 3,
+		text1: 'संस्कृत में कुछ',
+		text2: 'EnglishText'
+	}
+]

@@ -13,7 +13,9 @@
 
 Route::get('/', function () {
 	$books = App\Book::with('chapters')->get();
-    return view('welcome',['books' => $books]);
+	$json = $books->toJson();
+    return view('index',['books' => $books,'json' => $json]);
+    // return view('welcome',['books' => $books]);
 });
 
 Route::get('/chapter/{chapterid}', function ($chapterid) {
@@ -21,6 +23,7 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 				->orderBy("number")
 				->orderBy("type")
 				->orderBy("lineNumber")->get();
+	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
     return view('chapter',['lines' => $lines]);
 })->name('chapter');
 
