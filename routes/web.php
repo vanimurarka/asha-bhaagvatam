@@ -24,7 +24,8 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 				->orderBy("type")
 				->orderBy("lineNumber")->get();
 	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
-    return view('chapter',['lines' => $lines]);
+    return view('chapter-from-dhruv',['lines' => $lines]);
+	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 
 Auth::routes(['register' => false]);
