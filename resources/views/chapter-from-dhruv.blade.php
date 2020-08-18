@@ -37,6 +37,13 @@
 			font-style: italic;
 			cursor: pointer;
 		}
+		.nav-item {
+			display: block;
+		}
+		.nav-item:hover {
+			text-decoration: underline;
+			cursor: pointer;
+		}
 		.nav-selected {
 			font-weight: bold;
 		}
@@ -76,20 +83,18 @@
 				</div>
 				<!-- div class="col text-left"><a href="#">Next Chapter</a></div -->
 			</div>
-			<!--div id="nav-drop">
+			<div id="nav-drop">
 				<div class="row no-gutters text-center justify-content-center" id="nav-drop-real" style="display: none">
 					<div class="col">
-						<div v-for="(chapters, index) in nav.data" @click="nav.selected.book = index" :class="{'nav-selected': index === nav.selected.book}">
-							Book @{{index + 1}}
+						<div v-for="(book, index) in nav.all" :class="{'nav-selected':index===nav.selected.book, 'nav-item':index != nav.selected.book}" @click="nav.selected.book = index">
+							@{{book.nameE}}
 						</div>
 					</div>
 					<div class="col">
-						<div v-for="(n, index) in nav.data[nav.selected.book]" :class="{'nav-selected': index === nav.selected.chapter}">
-							Chapter @{{index + 1}}
-						</div>
+						
 					</div>
 				</div>
-			</div -->
+			</div>
 		</div>
 		
 		<br>
@@ -154,16 +159,23 @@
 			el: '#app',
 			data: {
 				nav: {
+					// Book Names
+					bnames: [
+					@foreach ($books as $book)
+						'{{$book->nameE}}',
+					@endforeach
+					],
 					// Number of chapters in each book
 					data: [11, 12, 13, 14, 15],
 					// Zero indexed, for header
 					current: {
-						book: 2, chapter: 6
+						book: {{$chapter->book->id - 1}}, chapter: 6
 					},
 					// Zero indexed, for nav
 					selected: {
-						book: 2, chapter: 6
-					}
+						book: {{$chapter->book->id - 1}}, chapterid: {{$chapter->id}}
+					},
+					all: {!!$booksJson!!}
 				},
 				verseData: [
 					verse1, verse2, verse3, verse4, verse5

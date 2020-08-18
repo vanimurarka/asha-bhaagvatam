@@ -26,9 +26,11 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 	$chapter = App\Chapter::where('id',$chapterid)
 					->with('book')
 					->first();
+	$books = App\Book::with('chapters')->get();
+	$booksJson = $books->toJson();
 	// var_dump($chapter);
 	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
-    return view('chapter-from-dhruv',['lines' => $lines,'chapter'=>$chapter]);
+    return view('chapter-from-dhruv',['lines' => $lines,'chapter'=>$chapter,'books'=>$books,'booksJson'=>$booksJson]);
 	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 
