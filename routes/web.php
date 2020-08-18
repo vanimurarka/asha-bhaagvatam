@@ -23,8 +23,12 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 				->orderBy("number")
 				->orderBy("type")
 				->orderBy("lineNumber")->get();
+	$chapter = App\Chapter::where('id',$chapterid)
+					->with('book')
+					->first();
+	// var_dump($chapter);
 	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
-    return view('chapter-from-dhruv',['lines' => $lines]);
+    return view('chapter-from-dhruv',['lines' => $lines,'chapter'=>$chapter]);
 	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 

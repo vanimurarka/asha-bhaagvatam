@@ -68,16 +68,15 @@
 			<div class="row text-center no-gutters">
 				<div class="col"><h4>Bhaagavatam First Step</h4></div>
 			</div>
-			<!-- div class="row no-gutters">
-				<div class="col text-right"><a href="#">Prev Chapter</a></div>
-				<div class="col text-center" @click="toggleNav" id="nav-current" -->
+			<div class="row no-gutters">
+				<!-- div class="col text-right"><a href="#">Prev Chapter</a></div -->
+				<div class="col text-center" @click="toggleNav" id="nav-current">
 					<!-- Hamburger: &#9776; Down Arrow: &#x25BC; -->
-					<!--
-					&#9776; Book @{{nav.current.book + 1}} Chapter @{{nav.current.chapter + 1}}
+					&#9776; {{$chapter->book->nameE}} Chapter {{$chapter->nameE}}
 				</div>
-				<div class="col text-left"><a href="#">Next Chapter</a></div>
+				<!-- div class="col text-left"><a href="#">Next Chapter</a></div -->
 			</div>
-			<div id="nav-drop">
+			<!--div id="nav-drop">
 				<div class="row no-gutters text-center justify-content-center" id="nav-drop-real" style="display: none">
 					<div class="col">
 						<div v-for="(chapters, index) in nav.data" @click="nav.selected.book = index" :class="{'nav-selected': index === nav.selected.book}">
