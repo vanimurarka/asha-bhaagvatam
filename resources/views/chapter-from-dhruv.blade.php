@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Bhaagavatam First Step</title>
 	<link href="{{ URL::asset('css/bootstrap.css') }}" rel="stylesheet">
-	<script type="text/javascript" src="{{ URL::asset('js/verse.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js/vue.min.js') }}"></script>
 	<style>
 		body {
@@ -131,28 +130,6 @@
         				{{$line->text1}}<br>
                 @endswitch
             @endforeach
-			<!-- div class="row verse text-center" v-for="verse in verseData">
-				<div class="col">
-					<div v-for="line in verse.hindiPara">
-						@{{line}}
-					</div>
-					<br>
-				</div>
-				<div class="w-100"></div>
-				<div class="col table-responsive table-borderless table-sm">
-					<table class="table">
-						<tbody>
-							<tr v-for="line in verse.lines">
-								<td class="">@{{line[0]}}</td>
-								<td class="">@{{line[1]}}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="w-100"></div>
-				<div class="col">@{{verse.englishPara}}</div>
-				<div class="w-100"><br></div>
-			</div -->
 		</div>
 	</div>
 
@@ -161,14 +138,6 @@
 			el: '#app',
 			data: {
 				nav: {
-					// Book Names
-					bnames: [
-					@foreach ($books as $book)
-						'{{$book->nameE}}',
-					@endforeach
-					],
-					// Number of chapters in each book
-					data: [11, 12, 13, 14, 15],
 					// Zero indexed, for header
 					current: {
 						book: {{$chapter->book->id - 1}}, chapter: 6
@@ -179,9 +148,6 @@
 					},
 					all: {!!$booksJson!!}
 				},
-				verseData: [
-					verse1, verse2, verse3, verse4, verse5
-				]
 			},
 			methods: {
 				toggleNav: function() {
