@@ -91,7 +91,9 @@
 						</div>
 					</div>
 					<div class="col">
-						
+						<div v-for="(chapter, index) in nav.all[nav.selected.book].chapters" :class="{'nav-selected': chapter.id === nav.selected.chapterid, 'nav-item' : chapter.id != nav.selected.chapterid}" @click="gotoChapter(chapter.id)">
+							Chapter @{{chapter.nameE}}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -193,6 +195,9 @@
 						navElement.style.display = "flex";
 					}
 				},
+				gotoChapter(id) {
+                	window.location.href = id;
+			    }
 			}
 		})
 	</script>
