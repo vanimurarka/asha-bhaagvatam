@@ -12,9 +12,10 @@
 */
 
 Route::get('/', function () {
+
 	$books = App\Book::with('chapters')->get();
 	$json = $books->toJson();
-    return view('index',['books' => $books,'json' => $json]);
+    return view('index',['json' => $json]);
     // return view('welcome',['books' => $books]);
 });
 
@@ -28,9 +29,14 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 					->first();
 	$books = App\Book::with('chapters')->get();
 	$booksJson = $books->toJson();
-	// var_dump($chapter);
+	$lastChapter = false;
+	$nBooks = count($books);
+	$nChaptersInLastBook = count($books[$nBooks-1]->chapters);
+	$lastChapterId = $books[$nBooks-1]->chapters[$nChaptersInLastBook-1]->id;
+	if ($lastChapterId == $chapterid)
+		$lastChapter = true;
 	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
-    return view('chapter-from-dhruv',['lines' => $lines,'chapter'=>$chapter,'books'=>$books,'booksJson'=>$booksJson]);
+    return view('chapter-from-dhruv',['lines' => $lines,'chapter'=>$chapter,'booksJson'=>$booksJson,'lastChapter'=>$lastChapter]);
 	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 

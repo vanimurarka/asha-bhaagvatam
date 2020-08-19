@@ -10,6 +10,8 @@
 		body {
 			background-color: #0081A7;
 		}
+		a {	color: black; }
+		a:visited { color: black; }
 		#header-container {
 			/* background-color: peru; */
 			background-color: #F2863F;
@@ -75,12 +77,19 @@
 				<div class="col"><h4>Bhaagavatam First Step</h4></div>
 			</div>
 			<div class="row no-gutters">
-				<!-- div class="col text-right"><a href="#">Prev Chapter</a></div -->
+				<div class="col text-right">
+					@if ($chapter->id > 1)
+					<a href="{{$chapter->id - 1}}" class="nav-item">Prev</a>
+					@endif
+				</div>
 				<div class="col text-center" @click="toggleNav" id="nav-current">
-					<!-- Hamburger: &#9776; Down Arrow: &#x25BC; -->
 					&#9776; {{$chapter->book->nameE}} Chapter {{$chapter->nameE}}
 				</div>
-				<!-- div class="col text-left"><a href="#">Next Chapter</a></div -->
+				<div class="col text-left">
+					@if (!$lastChapter)
+					<a href="{{$chapter->id + 1}}" class="nav-item">Next</a>
+					@endif
+				</div>
 			</div>
 			<div id="nav-drop">
 				<div class="row no-gutters text-center justify-content-center" id="nav-drop-real" style="display: none">
@@ -140,7 +149,7 @@
 				nav: {
 					// Zero indexed, for header
 					current: {
-						book: {{$chapter->book->id - 1}}, chapter: 6
+						book: {{$chapter->book->id - 1}}, chapterid: {{$chapter->id}}
 					},
 					// Zero indexed, for nav
 					selected: {
@@ -163,7 +172,7 @@
 				},
 				gotoChapter(id) {
                 	window.location.href = id;
-			    }
+			    },
 			}
 		})
 	</script>

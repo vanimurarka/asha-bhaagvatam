@@ -63,8 +63,8 @@
                 <br>
                 <hr>
                 <div class="col-12">
-                    <div v-for="(bname, index) in nav.bnames" @click="nav.selected.book = index" class="book col-4" :class="{'nav-selected': index === nav.selected.book}">
-                        @{{bname}}
+                    <div v-for="(book, index) in nav.all" @click="nav.selected.book = index" class="book col-4" :class="{'nav-selected': index === nav.selected.book}">
+                        @{{book.nameE}}
                     </div>
                 </div>
                 <hr>
@@ -87,19 +87,6 @@
 			el: '#app',
 			data: {
 				nav: {
-					// Book Names
-					bnames: [
-					@foreach ($books as $book)
-						'{{$book->nameE}}',
-					@endforeach
-					],
-					// Number of chapters in each book
-					data: [
-					@foreach ($books as $book)
-						{{count($book->chapters)}},
-	                @endforeach
-	            	],
-					//19, 10, 33, 31, 26, 19, 15, 24, 24, 90, 31, 13],
 					// Zero indexed, for nav
 					selected: {
 						book: 0, chapter: 0
