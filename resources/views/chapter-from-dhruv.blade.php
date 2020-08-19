@@ -74,7 +74,7 @@
 	<div id="app">
 		<div id="header-container" class="sticky-top">
 			<div class="row text-center no-gutters">
-				<div class="col"><h4>Bhaagavatam First Step</h4></div>
+				<div class="col"><h4><a href="/">Bhaagavatam First Step</a></h4></div>
 			</div>
 			<div class="row no-gutters">
 				<div class="col text-right">
