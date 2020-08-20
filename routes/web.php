@@ -36,7 +36,7 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 	if ($lastChapterId == $chapterid)
 		$lastChapter = true;
 	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
-    return view('chapter-from-dhruv',['lines' => $lines,'chapter'=>$chapter,'booksJson'=>$booksJson,'lastChapter'=>$lastChapter]);
+    return view('chapter',['lines' => $lines,'chapter'=>$chapter,'booksJson'=>$booksJson,'lastChapter'=>$lastChapter]);
 	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 
