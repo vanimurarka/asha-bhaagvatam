@@ -132,7 +132,7 @@
                 		{{$line->text1}}<br><br>
                 		@break
                 	@default
-        				<p style="text-align: center;">{{$line->text1}}</p>
+        				<p style="text-align: center;"><b>{{$line->text1}}</b></p>
                 @endswitch
             @endforeach
 		</div>
