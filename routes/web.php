@@ -45,4 +45,8 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 
 Auth::routes(['register' => false]);
 
+Route::get('privacy-policy', function () {
+    return view('privacy-policy');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
