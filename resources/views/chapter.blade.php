@@ -1,6 +1,7 @@
 @php
 	$isuser = false;
 	$isuser = Auth::check(); 
+	{{$isuser}}
 @endphp
 <!DOCTYPE html>
 <html>
