@@ -74,7 +74,6 @@
 	</style>
 </head>
 <body>
-	{{$isuser}}
 	<div id="app">
 		<div id="header-container" class="sticky-top">
 			<div class="row text-center no-gutters">
@@ -113,6 +112,7 @@
 		
 		<br>
 		<div id="content">
+			{{$isuser}}
 			@foreach ($lines as $line)
                 @switch($line->type)
                 	@case('3-PS')
