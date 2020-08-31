@@ -8,7 +8,8 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <a href="{{route('googleLogin')}}"><b>Login via Google</b></a>
+                    <!-- form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -64,7 +65,7 @@
                                 @endif
                             </div>
                         </div>
-                    </form>
+                    </form -->
                 </div>
             </div>
         </div>

@@ -52,10 +52,15 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        echo "authorized by Google";
-        $user = Socialite::driver('google')->user();
-        var_dump($user);
-
-        // $user->token;
+        $gUser = Socialite::driver('google')->user();
+        $user = User::where('email',$gUser->email)->first();
+        if ($user) // user already exists. log him in.
+        {
+        }
+        else
+        {
+            Auth::logout();
+            abort(403);
+        }
     }
 }

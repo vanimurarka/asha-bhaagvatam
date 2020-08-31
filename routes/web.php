@@ -40,7 +40,7 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 
-Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('googleLogin');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
 
 Auth::routes(['register' => false]);
