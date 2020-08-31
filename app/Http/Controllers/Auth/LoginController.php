@@ -59,7 +59,7 @@ class LoginController extends Controller
         if ($user) // user already exists. log him in.
         {
             Auth::login($user,true);
-            return redirect()->route('home');
+            return redirect()->route('index');
         }
         else
         {
