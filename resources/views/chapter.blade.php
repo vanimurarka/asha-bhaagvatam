@@ -1,7 +1,6 @@
 @php
 	$isuser = false;
 	$isuser = Auth::check(); 
-	{{$isuser}}
 @endphp
 <!DOCTYPE html>
 <html>
@@ -75,6 +74,7 @@
 	</style>
 </head>
 <body>
+	{{$isuser}}
 	<div id="app">
 		<div id="header-container" class="sticky-top">
 			<div class="row text-center no-gutters">
