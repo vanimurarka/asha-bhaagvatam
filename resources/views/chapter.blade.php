@@ -112,7 +112,6 @@
 		
 		<br>
 		<div id="content">
-			{{$isuser}}
 			@foreach ($lines as $line)
                 @switch($line->type)
                 	@case('3-PS')

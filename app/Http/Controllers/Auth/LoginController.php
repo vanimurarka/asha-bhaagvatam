@@ -58,7 +58,8 @@ class LoginController extends Controller
         $user = User::where('email',$gUser->email)->first();
         if ($user) // user already exists. log him in.
         {
-            echo "logged in";
+            Auth::login($user,true);
+            return redirect()->route('home');
         }
         else
         {

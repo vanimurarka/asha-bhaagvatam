@@ -17,7 +17,7 @@ Route::get('/', function () {
 	$json = $books->toJson();
     return view('index',['json' => $json]);
     // return view('welcome',['books' => $books]);
-});
+})->name('home');
 
 Route::get('/chapter/{chapterid}', function ($chapterid) {
 	$lines = App\ChapterText::where('chapterId',$chapterid)
