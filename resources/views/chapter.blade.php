@@ -1,3 +1,7 @@
+@php
+	$isuser = false;
+	$isuser = Auth::check(); 
+@endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,27 +116,32 @@
                 @switch($line->type)
                 	@case('3-PS')
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top">{{$line->text1}}</div>
-                		<div style="display: inline-block;width: 59%;vertical-align: top">{{$line->text2}}</div>
+                		<div style="display: inline-block;width: 39%;vertical-align: top">
+                			{{$line->text1}}
+                		</div>
+                		<div style="display: inline-block;width: 59%;vertical-align: top">
+                			{{$line->text2}} 
+                			@if ($isuser) <b>E</b> @endif
+                		</div>
                 		</div>
                 		@break
                 	@case('4-S')
-						<b>{{$line->text1}}</b>
+						<b>{{$line->text1}}</b> @if ($isuser) <b>E</b> @endif
 						<br>
 						@break
                 	@case('5-B')
                 		@if ($line->lineNumber == 1)<br>@endif
                 		<div>
                 		<div style="display: inline-block;width: 39%;vertical-align: top">{{$line->text1}}</div>
-                		<div style="display: inline-block;width: 59%;vertical-align: top">{{$line->text2}}</div>
+                		<div style="display: inline-block;width: 59%;vertical-align: top">{{$line->text2}} @if ($isuser) <b>E</b> @endif</div>
                 		</div>
                 		@break                	
                 	@case('6-E')
                 		<br>
-                		{{$line->text1}}<br><br>
+                		{{$line->text1}} @if ($isuser) <b>E</b> @endif<br><br>
                 		@break
                 	@default
-        				<p style="text-align: center;"><b>{{$line->text1}}</b></p>
+        				<p style="text-align: center;"><b>{{$line->text1}}</b> @if ($isuser) <b>E</b> @endif</p>
                 @endswitch
             @endforeach
 		</div>
