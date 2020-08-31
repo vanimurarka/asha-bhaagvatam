@@ -52,7 +52,9 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
+        echo "authorized by Google";
         $user = Socialite::driver('google')->user();
+        var_dump($user);
 
         // $user->token;
     }
