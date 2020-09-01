@@ -14,8 +14,12 @@
 		body {
 			background-color: #0081A7;
 		}
-		a {	color: black; }
+		a {	color: blue; }
 		a:visited { color: black; }
+		.edit {
+			text-decoration: underline !important;
+			cursor: pointer !important;
+		}
 		#header-container {
 			/* background-color: peru; */
 			background-color: #F2863F;
@@ -116,38 +120,84 @@
                 @switch($line->type)
                 	@case('3-PS')
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top">
+                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-1">
                 			{{$line->text1}}
                 		</div>
-                		<div style="display: inline-block;width: 59%;vertical-align: top">
+                		<div style="display: inline-block;width: 59%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-2">
                 			{{$line->text2}} 
-                			@if ($isuser) <b>E</b> @endif
                 		</div>
+                		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		</div>
                 		@break
                 	@case('4-S')
-						<b>{{$line->text1}}</b> @if ($isuser) <b>E</b> @endif
+						<div style="font-weight: bold;display: inline-block;" id="{{$line->type}}-{{$line->id}}-1">{{$line->text1}}</div> @if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
 						<br>
 						@break
                 	@case('5-B')
                 		@if ($line->lineNumber == 1)<br>@endif
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top">{{$line->text1}}</div>
-                		<div style="display: inline-block;width: 59%;vertical-align: top">{{$line->text2}} @if ($isuser) <b>E</b> @endif</div>
+                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-1">{{$line->text1}}</div>
+                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-2">{{$line->text2}} </div>
+                		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		</div>
                 		@break                	
                 	@case('6-E')
                 		<br>
-                		{{$line->text1}} @if ($isuser) <b>E</b> @endif<br><br>
+                		<div style="display: inline-block;" id="{{$line->type}}-{{$line->id}}-1">{{$line->text1}} </div>
+                		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+                		<br><br>
                 		@break
                 	@default
-        				<p style="text-align: center;"><b>{{$line->text1}}</b> @if ($isuser) <b>E</b> @endif</p>
+                		<div style="text-align: center;">
+        				<div id="{{$line->type}}-{{$line->id}}-1" style="font-weight: bold;display: inline-block;">{{$line->text1}}</div>
+        				@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+        				<br><br>
+        				</div>
                 @endswitch
             @endforeach
 		</div>
 	</div>
 
 	<script type="text/javascript">		
+		function edit(id,type)
+		{
+			divId = type+'-'+ id +'-1'; // div's id
+			eid = "e-"+id;
+			div = document.getElementById(divId);
+			div.contentEditable = true;
+			div.style.border = "1px solid black";
+
+			if ((type == '3-PS') || (type = '5-B'))
+			{
+				div2Id = type+'-'+ id +'-2'; // div2's id
+				div2 = document.getElementById(div2Id);
+				div2.contentEditable = true;
+				div2.style.border = "1px solid black";
+			}
+			a = document.getElementById(eid);
+			a.innerHTML = "Save";
+			a.setAttribute('onclick','save('+id+",'"+type+"')");
+		}
+		function save(id,type)
+		{
+			divId = type+'-'+ id +'-1'; // div's id
+			div = document.getElementById(divId);
+			div.contentEditable = false;
+			div.style.border = "";
+			eid = "e-"+id;
+
+			if ((type == '3-PS') || (type = '5-B'))
+			{
+				div2Id = type+'-'+ id +'-2'; // div2's id
+				div2 = document.getElementById(div2Id);
+				div2.contentEditable = false;
+				div2.style.border = "";
+			}
+
+			a = document.getElementById(eid);
+			a.innerHTML = "Edit";
+			a.setAttribute('onclick','edit('+id+",'"+type+"')");
+		}
 		var vm = new Vue({
 			el: '#app',
 			data: {
