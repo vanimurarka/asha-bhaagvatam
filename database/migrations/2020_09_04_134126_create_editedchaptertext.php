@@ -13,7 +13,7 @@ class CreateEditedchaptertext extends Migration
      */
     public function up()
     {
-        Schema::table('edited_chaptertext', function (Blueprint $table) {
+        Schema::create('edited_chaptertext', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('userid');
             $table->bigInteger('originalId');
