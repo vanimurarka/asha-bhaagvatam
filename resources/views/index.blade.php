@@ -76,7 +76,7 @@
                 <hr>
                 <!-- div class="col-12 text-center">
                     Feedback | @if (Route::has('login') && (!Auth::check())) <a href="{{ route('login') }}">Login</a> @endif @if (Auth::check()) <a href="{{ route('logout') }}">Logout</a> @endif 
-                </div -->
+                </div  -->
                 <br>
             </div>
         </div>
