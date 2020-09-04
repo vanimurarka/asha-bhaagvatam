@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Bhaagavatam First Step</title>
 	<link href="{{ URL::asset('css/bootstrap.css') }}" rel="stylesheet">
+	<script type="text/javascript" src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js/vue.min.js') }}"></script>
 	<style>
 		body {
@@ -117,39 +118,42 @@
 		<br>
 		<div id="content">
 			@foreach ($lines as $line)
+				<!-- o in id means original -->
+				<span id="{{$line->id}}-1o" style="visibility: hidden;display: none;">{{$line->text1}}</span>
+				<span id="{{$line->id}}-2o" style="visibility: hidden;display: none;">{{$line->text2}}</span>
                 @switch($line->type)
                 	@case('3-PS')
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-1">
+                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->id}}-1">
                 			{{$line->text1}}
                 		</div>
-                		<div style="display: inline-block;width: 59%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-2">
+                		<div style="display: inline-block;width: 59%;vertical-align: top" id="{{$line->id}}-2">
                 			{{$line->text2}} 
                 		</div>
                 		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		</div>
                 		@break
                 	@case('4-S')
-						<div style="font-weight: bold;display: inline-block;" id="{{$line->type}}-{{$line->id}}-1">{{$line->text1}}</div> @if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+						<div style="font-weight: bold;display: inline-block;" id="{{$line->id}}-1">{{$line->text1}}</div> @if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
 						<br>
 						@break
                 	@case('5-B')
                 		@if ($line->lineNumber == 1)<br>@endif
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-1">{{$line->text1}}</div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->type}}-{{$line->id}}-2">{{$line->text2}} </div>
+                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->id}}-1">{{$line->text1}}</div>
+                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->id}}-2">{{$line->text2}} </div>
                 		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		</div>
                 		@break                	
                 	@case('6-E')
                 		<br>
-                		<div style="display: inline-block;" id="{{$line->type}}-{{$line->id}}-1">{{$line->text1}} </div>
+                		<div style="display: inline-block;" id="{{$line->id}}-1">{{$line->text1}} </div>
                 		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		<br><br>
                 		@break
                 	@default
                 		<div style="text-align: center;">
-        				<div id="{{$line->type}}-{{$line->id}}-1" style="font-weight: bold;display: inline-block;">{{$line->text1}}</div>
+        				<div id="{{$line->id}}-1" style="font-weight: bold;display: inline-block;">{{$line->text1}}</div>
         				@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
         				<br><br>
         				</div>
@@ -158,19 +162,18 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">		
+	<script type="text/javascript">
+		var $j = jQuery.noConflict();		
 		function edit(id,type)
 		{
-			divId = type+'-'+ id +'-1'; // div's id
 			eid = "e-"+id;
-			div = document.getElementById(divId);
+			div = document.getElementById(id +'-1');
 			div.contentEditable = true;
 			div.style.border = "1px solid black";
 
-			if ((type == '3-PS') || (type = '5-B'))
+			if ((type == '3-PS') || (type == '5-B'))
 			{
-				div2Id = type+'-'+ id +'-2'; // div2's id
-				div2 = document.getElementById(div2Id);
+				div2 = document.getElementById(id+'-2');
 				div2.contentEditable = true;
 				div2.style.border = "1px solid black";
 			}
@@ -180,20 +183,63 @@
 		}
 		function save(id,type)
 		{
-			divId = type+'-'+ id +'-1'; // div's id
-			div = document.getElementById(divId);
+			div = document.getElementById(id +'-1');
 			div.contentEditable = false;
 			div.style.border = "";
-			eid = "e-"+id;
+			txt1 = div.innerHTML;
 
-			if ((type == '3-PS') || (type = '5-B'))
+			txt2='';
+			if ((type == '3-PS') || (type == '5-B'))
 			{
-				div2Id = type+'-'+ id +'-2'; // div2's id
-				div2 = document.getElementById(div2Id);
+				div2 = document.getElementById(id +'-2');
 				div2.contentEditable = false;
 				div2.style.border = "";
+				txt2 = div2.innerHTML;
 			}
 
+			$j.ajax({
+		         url:'http://localhost/asha-bhaagvatam/public/edit-chapter',
+		         // data: {'pom': $j('textarea#pom').val(),
+		         data: {'id':id,
+		          'txt1': txt1,
+		          'txt2': txt2,
+		          '_token': '{!! csrf_token() !!}'},
+		         type: "POST",
+		         dataType: "html",
+		         async:   true,
+		         success: function(result) 
+		         {
+		         	// change backup original to new value
+		         	div = document.getElementById(id +'-1');
+		            span = document.getElementById(id +'-1o'); // backup original texg
+		            span.innerHTML = div.innerHTML;
+
+					if ((type == '3-PS') || (type == '5-B'))
+					{
+						div2 = document.getElementById(id+'-2');
+						span2 = document.getElementById(id+'-2o'); // backup original texg
+						span2.innerHTML = div.innerHTML;
+					}
+		         },
+		         error: function( xhr, status)
+		         {
+		            alert('There was some error. Changes not saved');
+
+		            // restore displayed text to backup original
+		            div = document.getElementById(id +'-1');
+		            span = document.getElementById(id +'-1o'); // backup original texg
+		            div.innerHTML = span.innerHTML;
+
+					if ((type == '3-PS') || (type == '5-B'))
+					{
+						div2 = document.getElementById(id+'-2');
+						span2 = document.getElementById(id+'-2o'); // backup original texg
+						div2.innerHTML = span2.innerHTML;
+					}
+		         },
+		    });
+
+			eid = "e-"+id;
 			a = document.getElementById(eid);
 			a.innerHTML = "Edit";
 			a.setAttribute('onclick','edit('+id+",'"+type+"')");

@@ -43,7 +43,28 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('googleLogin');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
 
+Route::post('edit-chapter', function (Illuminate\Http\Request $request) {
+	$data = $request->all();
+	Log::debug($data);
+	$user = Auth::user();
+	if ($user->level == 1) // change text on server
+	{
+		$dbText = App\ChapterText::where('id',$data['id'])->first();
+		$dbText->edit($data);
+	}
+	if ($user->level == 2) // record change in edit table
+	{
+		App\EditedChapterText::addEdit($data,$user->id);
+	}
+	return response()->json(array('msg'=> "yes"), 200);
+});
+
 Auth::routes(['register' => false]);
+
+Route::get('logout', function () {
+    Auth::logout();
+    return redirect('/');
+});
 
 Route::get('privacy-policy', function () {
     return view('privacy-policy');
