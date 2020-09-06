@@ -4,7 +4,10 @@
 	$user = Auth::user();
 
 	$root = config('app.url');
-	$totalEdits = count($edits);
+	if ($edits == null)
+		$totalEdits = 0;
+	else
+		$totalEdits = $edits->count();
 	$editCounter = 0;
 	$edited = "";
 	if ($isuser)
