@@ -44,14 +44,14 @@ class LoginController extends Controller
 
     public function redirectToProvider()
     {
-        // $user = User::where('email','vani.murarka@gmail.com')->first();
-        // if ($user) // user already exists. log him in.
-        // {
-        //     Auth::login($user,true);
-        //     return redirect()->route('index');
-        // }
+        $user = User::where('email','vani.murarka@gmail.com')->first();
+        if ($user) // user already exists. log him in.
+        {
+            Auth::login($user,true);
+            return redirect()->route('index');
+        }
 
-        return Socialite::driver('google')->redirect();
+        // return Socialite::driver('google')->redirect();
     }
 
     /**

@@ -10,12 +10,22 @@ class EditedChapterText extends Model
 
     public static function addEdit($data,$userid)
     {
-    	$edit = new EditedChapterText;
-    	$edit->userid = $userid;
-    	$edit->originalId = $data['id'];
-    	$edit->text1 = $data['txt1'];
+        // get edited record if it already exits for this
+        // user and this originalId
+        $editedChapterText = self::where('userid',$userid)
+                        ->where('originalId',$data['id'])
+                        ->first();
+        if (!$editedChapterText) // if none exits create a new one
+            $editedChapterText = new EditedChapterText;
+            
+    	$editedChapterText->userid = $userid;
+    	$editedChapterText->originalId = $data['id'];
+        $editedChapterText->chapterid = $data['chapterid'];
+    	$editedChapterText->text1 = $data['txt1'];
     	if (strlen($data['txt2'])>0)
-    		$edit->text2 = $data['txt2'];
-    	$edit->save();
+    		$editedChapterText->text2 = $data['txt2'];
+        else
+            $editedChapterText->text2 = '';
+    	$editedChapterText->save();
     }
 }

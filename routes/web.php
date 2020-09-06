@@ -35,8 +35,21 @@ Route::get('/chapter/{chapterid}', function ($chapterid) {
 	$lastChapterId = $books[$nBooks-1]->chapters[$nChaptersInLastBook-1]->id;
 	if ($lastChapterId == $chapterid)
 		$lastChapter = true;
+
+	$edits = null;
+	if (Auth::check())
+	{
+		$user = Auth::user();
+		if ($user->level > 1) // user can suggest edits
+		// retrieve pending edits by user
+		$edits = App\EditedChapterText::where('chapterid',$chapterid)
+				->where('userid',$user->id)
+				->orderBy("originalId")->get();
+	}
+	
+
 	// return $lines->toJson(JSON_UNESCAPED_UNICODE);
-    return view('chapter',['lines' => $lines,'chapter'=>$chapter,'booksJson'=>$booksJson,'lastChapter'=>$lastChapter]);
+    return view('chapter',['lines' => $lines,'chapter'=>$chapter,'booksJson'=>$booksJson,'lastChapter'=>$lastChapter, 'edits'=>$edits]);
 	// return view('chapter',['lines' => $lines]);
 })->name('chapter');
 

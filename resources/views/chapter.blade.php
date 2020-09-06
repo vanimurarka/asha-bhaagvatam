@@ -1,6 +1,14 @@
 @php
 	$isuser = false;
 	$isuser = Auth::check(); 
+	$user = Auth::user();
+
+	$root = config('app.url');
+	$totalEdits = count($edits);
+	$editCounter = 0;
+	$edited = "";
+	if ($isuser)
+		$allowEdit = true;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -73,6 +81,18 @@
 		.verse {
 			padding: 0.5em;
 		}
+		.sanskrit-alone {
+			font-weight: bold;display: inline-block;
+		}
+		.sanskrit {
+			display: inline-block;width: 39%;vertical-align: top;
+		}
+		.english {
+			display: inline-block;width: 50%;vertical-align: top;
+		}
+		.blue {
+			color: blue;
+		}
 		td {
 			width: 50%;
 		}
@@ -119,42 +139,64 @@
 		<div id="content">
 			@foreach ($lines as $line)
 				<!-- o in id means original -->
-				<span id="{{$line->id}}-1o" style="visibility: hidden;display: none;">{{$line->text1}}</span>
-				<span id="{{$line->id}}-2o" style="visibility: hidden;display: none;">{{$line->text2}}</span>
+				@php
+					if ($totalEdits > 0)
+					{
+						if ($line->id == $edits[$editCounter]['originalId'])
+						{
+							$edited = "blue"; // class if this line is edited
+							$txt1 = $edits[$editCounter]['text1'];
+							$txt2 = $edits[$editCounter]['text2'];
+							if ($editCounter < $totalEdits - 1)
+								$editCounter++;
+						}
+						else
+						{
+							$edited = ""; // class if this line is edited
+							$txt1 = $line->text1;
+							$txt2 = $line->text2;
+						}
+					}
+					else
+					{
+						$edited = ""; // class if this line is edited
+						$txt1 = $line->text1;
+						$txt2 = $line->text2;
+					}
+				@endphp
+				<span id="{{$line->id}}-1o" style="visibility: hidden;display: none;">{{$txt1}}</span>
+				<span id="{{$line->id}}-2o" style="visibility: hidden;display: none;">{{$txt2}}</span>
                 @switch($line->type)
                 	@case('3-PS')
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->id}}-1">
-                			{{$line->text1}}
-                		</div>
-                		<div style="display: inline-block;width: 59%;vertical-align: top" id="{{$line->id}}-2">
-                			{{$line->text2}} 
-                		</div>
-                		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+                			<div class="sanskrit {{$edited}}" id="{{$line->id}}-1">{{$txt1}}</div>
+                			<div class="english {{$edited}}" id="{{$line->id}}-2">{{$txt2}}</div>
+                			@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		</div>
                 		@break
                 	@case('4-S')
-						<div style="font-weight: bold;display: inline-block;" id="{{$line->id}}-1">{{$line->text1}}</div> @if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+						<div class="sanskrit-alone {{$edited}}" id="{{$line->id}}-1">{{$txt1}}</div>
+						@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
 						<br>
 						@break
                 	@case('5-B')
                 		@if ($line->lineNumber == 1)<br>@endif
                 		<div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->id}}-1">{{$line->text1}}</div>
-                		<div style="display: inline-block;width: 39%;vertical-align: top" id="{{$line->id}}-2">{{$line->text2}} </div>
-                		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+                			<div class="sanskrit {{$edited}}" id="{{$line->id}}-1">{{$txt1}}</div>
+                			<div class="english {{$edited}}" id="{{$line->id}}-2">{{$txt2}} </div>
+                			@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		</div>
                 		@break                	
                 	@case('6-E')
                 		<br>
-                		<div style="display: inline-block;" id="{{$line->id}}-1">{{$line->text1}} </div>
-                		@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+                		<div class="{{$edited}}" style="display: inline-block;" id="{{$line->id}}-1">{{$txt1}} </div>
+                		@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
                 		<br><br>
                 		@break
                 	@default
                 		<div style="text-align: center;">
-        				<div id="{{$line->id}}-1" style="font-weight: bold;display: inline-block;">{{$line->text1}}</div>
-        				@if ($isuser) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
+        				<div id="{{$line->id}}-1" class="sanskrit-alone {{$edited}}">{{$txt1}}</div>
+        				@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
         				<br><br>
         				</div>
                 @endswitch
@@ -198,11 +240,11 @@
 			}
 
 			$j.ajax({
-		         url:'http://localhost/asha-bhaagvatam/public/edit-chapter',
-		         // data: {'pom': $j('textarea#pom').val(),
+		         url:'{{$root}}/edit-chapter',
 		         data: {'id':id,
 		          'txt1': txt1,
 		          'txt2': txt2,
+		          'chapterid': {{$chapter->id}},
 		          '_token': '{!! csrf_token() !!}'},
 		         type: "POST",
 		         dataType: "html",
@@ -213,6 +255,9 @@
 		         	div = document.getElementById(id +'-1');
 		            span = document.getElementById(id +'-1o'); // backup original texg
 		            span.innerHTML = div.innerHTML;
+		            @if ($user->level > 1)
+		            	div.style.color = "blue";
+		            @endif
 
 					if ((type == '3-PS') || (type == '5-B'))
 					{
