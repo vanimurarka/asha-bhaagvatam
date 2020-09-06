@@ -12,6 +12,8 @@
 	$edited = "";
 	if ($isuser)
 		$allowEdit = true;
+	else
+		$allowEdit = false;
 @endphp
 <!DOCTYPE html>
 <html>
