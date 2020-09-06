@@ -260,7 +260,7 @@
 		         	div = document.getElementById(id +'-1');
 		            span = document.getElementById(id +'-1o'); // backup original texg
 		            span.innerHTML = div.innerHTML;
-		            @if ($user->level > 1)
+		            @if (($isuser) && ($user->level > 1))
 		            	div.style.color = "blue";
 		            @endif
 
