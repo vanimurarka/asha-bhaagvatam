@@ -71,8 +71,6 @@
 			font-weight: bold;
 		}
 		#content {
-			/* background: linear-gradient(rgba(255,235,205,.85), rgba(255,235,205,.85)), url('assets/bg3.jpg'); */
-			background: linear-gradient(rgba(255,255,255,.85), rgba(255,255,255,.85)), url('assets/bg3.jpg');
 			background-attachment: fixed;
 			background-position: center;
 			background-size: 90vh auto;
@@ -269,6 +267,9 @@
 						div2 = document.getElementById(id+'-2');
 						span2 = document.getElementById(id+'-2o'); // backup original texg
 						span2.innerHTML = div.innerHTML;
+						@if (($isuser) && ($user->level > 1))
+			            	div2.style.color = "blue";
+			            @endif
 					}
 		         },
 		         error: function( xhr, status)
