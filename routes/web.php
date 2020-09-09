@@ -58,7 +58,6 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 
 Route::post('edit-chapter', function (Illuminate\Http\Request $request) {
 	$data = $request->all();
-	Log::debug($data);
 	$user = Auth::user();
 	if ($user->level == 1) // change text on server
 	{
@@ -70,7 +69,20 @@ Route::post('edit-chapter', function (Illuminate\Http\Request $request) {
 		App\EditedChapterText::addEdit($data,$user->id);
 	}
 	return response()->json(array('msg'=> "yes"), 200);
-});
+})->middleware('auth');
+
+Route::get('manage-edits', function () {
+	$users = App\User::withCount('edits')->get();
+	return view('manage-edits',['users'=>$users]);
+})->middleware('masteruser');
+
+Route::get('manage-edits/user/{userid}', function ($userid) {
+	$user = App\User::find($userid);
+	$edits = App\EditedChapterText::where('userid',$userid)
+				->with('chapterText')
+				->orderBy("originalId")->get();
+	return view('manage-edits-user',['user'=>$user,'edits'=>$edits]);
+})->middleware('masteruser')->name('manage-edits-user');
 
 Auth::routes(['register' => false]);
 

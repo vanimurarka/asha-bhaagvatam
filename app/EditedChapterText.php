@@ -8,6 +8,11 @@ class EditedChapterText extends Model
 {
     protected $table = 'edited_chaptertext';
 
+    public function chapterText()
+    {
+        return $this->belongsTo('App\ChapterText','originalId');
+    }
+
     public static function addEdit($data,$userid)
     {
         // get edited record if it already exits for this

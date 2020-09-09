@@ -8,6 +8,11 @@ class ChapterText extends Model
 {
     protected $table = 'chaptertext';
 
+    public function shlokaLines()
+    {
+        return $this->hasMany('App\ChapterText','number')->orderBy('id');
+    }
+
     public function edit($data)
     {
     	$this->text1 = $data['txt1'];
