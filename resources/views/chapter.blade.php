@@ -20,7 +20,7 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>{{$chapter->book->nameE}} {{$chapter->nameE}} | Bhaagavatam First Step</title>
+	<title>{{$chapter->book->nameE}}-{{$chapter->nameE}} | Bhaagavatam First Step</title>
 	<link href="{{ URL::asset('css/bootstrap.css') }}" rel="stylesheet">
 	<script type="text/javascript" src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js/vue.min.js') }}"></script>
