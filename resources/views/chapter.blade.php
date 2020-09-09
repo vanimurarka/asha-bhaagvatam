@@ -194,7 +194,7 @@
                 		<br>
                 		<div class="{{$edited}}" style="display: inline-block;" id="{{$line->id}}-1">{{$txt1}} </div>
                 		@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
-                		<a name="{{$line->number+1}}"></a>
+                		<a name="{{($line->number+1)}}"></a>
                 		<br><br>
                 		@break
                 	@default
