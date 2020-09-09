@@ -109,7 +109,7 @@ $chapter = null;
 					if (!$chapter || ($chapter->id !== $edit->chapterid))
 						$chapter = App\Chapter::with('book')->find($edit->chapterid);
 				@endphp
-				<a href="{{route('chapter',['chapterid'=>$chapter->id])}}" target="_blank"><b>{{$chapter->book->nameE}} Chapter {{$chapter->nameE}} Shloka {{$edit->chapterText->number}}</b></a><br>
+				<a href="{{route('chapter',['chapterid'=>$chapter->id])}}#{{$edit->chapterText->number}}" target="_blank"><b>{{$chapter->book->nameE}} Chapter {{$chapter->nameE}} Shloka {{$edit->chapterText->number}}</b></a><br>
 				@if (($edit->chapterText->type == '3-PS') || ($edit->chapterText->type == '5-B'))
 					@php
 						$diff2 = get_decorated_diff($edit->chapterText->text2, $edit->text2);

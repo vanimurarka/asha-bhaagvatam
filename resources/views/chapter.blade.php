@@ -178,6 +178,7 @@
                 		</div>
                 		@break
                 	@case('4-S')
+                		@if ($line->lineNumber == 1) <a name="{{$line->number}}"></a> @endif
 						<div class="sanskrit-alone {{$edited}}" id="{{$line->id}}-1">{{$txt1}}</div>
 						@if ($allowEdit) <a class="edit" onclick="edit({{$line->id}},'{{$line->type}}')" id="e-{{$line->id}}">Edit</a> @endif
 						<br>
