@@ -106,7 +106,7 @@ $chapter = null;
 		<div id="content">
 			@foreach ($edits as $edit)
 				@php
-					if (!$chapter || ($chapter->id == $edit->chapterid))
+					if (!$chapter || ($chapter->id !== $edit->chapterid))
 						$chapter = App\Chapter::with('book')->find($edit->chapterid);
 				@endphp
 				<a href="{{route('chapter',['chapterid'=>$chapter->id])}}" target="_blank"><b>{{$chapter->book->nameE}} Chapter {{$chapter->nameE}} Shloka {{$edit->chapterText->number}}</b></a><br>
