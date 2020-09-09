@@ -1,3 +1,23 @@
+@php
+function get_decorated_diff($old, $new){
+    $from_start = strspn($old ^ $new, "\0");        
+    $from_end = strspn(strrev($old) ^ strrev($new), "\0");
+
+    $old_end = strlen($old) - $from_end;
+    $new_end = strlen($new) - $from_end;
+
+    $start = substr($new, 0, $from_start);
+    $end = substr($new, $new_end);
+    $new_diff = substr($new, $from_start, $new_end - $from_start);  
+    $old_diff = substr($old, $from_start, $old_end - $from_start);
+
+    $new = "$start<ins style='background-color:#ccffcc'>$new_diff</ins>$end";
+    $old = "$start<del style='background-color:#ffcccc'>$old_diff</del>$end";
+    return array("old"=>$old, "new"=>$new);
+}
+
+@endphp
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,9 +105,26 @@
 		<br>
 		<div id="content">
 			@foreach ($edits as $edit)
-				{{$edit->chapterText->text1}} {{$edit->chapterText->text1}}<br>
-				{{$edit->text1}} {{$edit->text1}}<br>
-				<br>
+				@if (($edit->chapterText->type == '3-PS') || ($edit->chapterText->type == '5-B'))
+					@php
+						$diff2 = get_decorated_diff($edit->chapterText->text2, $edit->text2);
+					@endphp
+					{{-- !! $diff1['old'] !!} {!! $diff2['old'] !! --}}
+					{{$edit->chapterText->text1}} {!! $diff2['old'] !!}<br>
+					{{$edit->text1}} {!! $diff2['new'] !!}<br>
+					<br>
+				@elseif ($edit->chapterText->type == '6-E')
+					@php
+						$diff1 = get_decorated_diff($edit->chapterText->text1, $edit->text1);
+					@endphp
+					{{-- !! $diff1['old'] !!} {!! $diff2['old'] !! --}}
+					{!! $diff1['old'] !!}<br>
+					{!! $diff1['new'] !!}<br>
+					<br>
+				@else
+					{{$edit->chapterText->text1}} {{$edit->chapterText->text2}}<br>
+					{{$edit->text1}} {{$edit->text2}}<br>
+				@endif
 			@endforeach
 		</div>
 	</div>
