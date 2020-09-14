@@ -1,3 +1,15 @@
+@php
+    $isuser = false;
+    $masteruser = false;
+    $user = null;
+    if (Auth::check())
+    {
+        $isuser = true;
+        $user = Auth::user();
+        if ($user->level == 1)
+            $masteruser = true;
+    }
+@endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +87,14 @@
                 </div>
                 <hr>
                 <div class="col-12 text-center">
-                    <!-- Feedback | -->@if (Route::has('login') && (!Auth::check())) <a href="{{ route('login') }}">Login</a> @endif @if (Auth::check()) <a href="{{ route('logout') }}">Logout</a> @endif 
+                    <!-- Feedback | -->@if (Route::has('login') && (!$isuser)) <a href="{{ route('login') }}">Login</a> @endif 
+                    @if ($isuser) 
+                        {{$user->name}}<br>
+                        @if ($masteruser)
+                            <a href="{{ route('manage-edits') }}">Manage Edits</a> | 
+                        @endif
+                        <a href="{{ route('logout') }}">Logout</a>
+                    @endif 
                 </div>
                 <br>
             </div>

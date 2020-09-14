@@ -33,4 +33,22 @@ class EditedChapterText extends Model
             $editedChapterText->text2 = '';
     	$editedChapterText->save();
     }
+
+    // replace original with edited text
+    // change status of edit record to 1
+    public function accept()
+    {
+        $this->chapterText->text1 = $this->text1;
+        $this->chapterText->text2 = $this->text2;
+        $this->chapterText->save();
+        $this->status = 1;
+        $this->save();
+    }
+
+    // only change status of edit record to -1
+    public function reject()
+    {
+        $this->status = -1;
+        $this->save();
+    }
 }

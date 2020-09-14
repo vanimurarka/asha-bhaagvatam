@@ -16,6 +16,7 @@ function get_decorated_diff($old, $new){
     return array("old"=>$old, "new"=>$new);
 }
 $chapter = null;
+$root = config('app.url');
 @endphp
 
 <!DOCTYPE html>
@@ -25,13 +26,18 @@ $chapter = null;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Bhaagavatam First Step</title>
 	<link href="{{ URL::asset('css/bootstrap.css') }}" rel="stylesheet">
-	<script type="text/javascript" src="{{ URL::asset('js/vue.min.js') }}"></script>
+	<!-- script type="text/javascript" src="{{ URL::asset('js/vue.min.js') }}"></script -->
+	<script type="text/javascript" src="{{ URL::asset('js/jquery-1.12.3.min.js') }}"></script>
 	<style>
 		body {
 			background-color: #0081A7;
 		}
 		a {	color: black; }
 		a:visited { color: black; }
+		.accept {color: blue !important; font-weight: bold}
+		.accept:hover {cursor: pointer;}
+		.reject {color: red !important; font-weight: bold}
+		.reject:hover {cursor: pointer;}
 		#header-container {
 			/* background-color: peru; */
 			background-color: #F2863F;
@@ -105,6 +111,7 @@ $chapter = null;
 		<br>
 		<div id="content">
 			@foreach ($edits as $edit)
+				<div id="edit-{{$edit->id}}">
 				@php
 					if (!$chapter || ($chapter->id !== $edit->chapterid))
 						$chapter = App\Chapter::with('book')->find($edit->chapterid);
@@ -117,7 +124,6 @@ $chapter = null;
 					{{-- !! $diff1['old'] !!} {!! $diff2['old'] !! --}}
 					{{$edit->chapterText->text1}} {!! $diff2['old'] !!}<br>
 					{{$edit->text1}} {!! $diff2['new'] !!}<br>
-					<br>
 				@elseif ($edit->chapterText->type == '6-E')
 					@php
 						$diff1 = get_decorated_diff($edit->chapterText->text1, $edit->text1);
@@ -125,13 +131,56 @@ $chapter = null;
 					{{-- !! $diff1['old'] !!} {!! $diff2['old'] !! --}}
 					{!! $diff1['old'] !!}<br>
 					{!! $diff1['new'] !!}<br>
-					<br>
 				@else
 					{{$edit->chapterText->text1}} {{$edit->chapterText->text2}}<br>
 					{{$edit->text1}} {{$edit->text2}}<br>
 				@endif
+				<a class="accept" onclick="accept({{$edit->id}})">Accept</a> --- <a class="reject" onclick="reject({{$edit->id}})">Reject</a><br>
+				<br>
+				</div>
 			@endforeach
 		</div>
 	</div>
+	<script type="text/javascript">
+		var $j = jQuery.noConflict();
+		function accept(id)
+		{
+			$j.ajax({
+		         url:'{{$root}}/accept-edit',
+		         data: {'id':id,
+		          '_token': '{!! csrf_token() !!}'},
+		         type: "POST",
+		         dataType: "html",
+		         async:   true,
+		         success: function(result) 
+		         {
+		         	$j( "#edit-"+id ).remove();
+		         },
+		         error: function( xhr, status)
+		         {
+		            alert('There was some error. Changes not saved');
+		         },
+		    });
+		}
+		function reject(id)
+		{
+			$j.ajax({
+		         url:'{{$root}}/reject-edit',
+		         data: {'id':id,
+		          '_token': '{!! csrf_token() !!}'},
+		         type: "POST",
+		         dataType: "html",
+		         async:   true,
+		         success: function(result) 
+		         {
+		         	$j( "#edit-"+id ).remove();
+		         },
+		         error: function( xhr, status)
+		         {
+		            alert('There was some error. Changes not saved');
+		         },
+		    });
+		}
+	</script>
 </body>
 </html>

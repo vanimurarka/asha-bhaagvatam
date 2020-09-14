@@ -72,17 +72,34 @@ Route::post('edit-chapter', function (Illuminate\Http\Request $request) {
 })->middleware('auth');
 
 Route::get('manage-edits', function () {
-	$users = App\User::withCount('edits')->get();
+	$users = App\User::withCount(['edits' => function (Illuminate\Database\Eloquent\Builder $query) {
+		    $query->where('status', '=', 0);
+		}])->get();
 	return view('manage-edits',['users'=>$users]);
-})->middleware('masteruser');
+})->middleware('masteruser')->name('manage-edits');
 
 Route::get('manage-edits/user/{userid}', function ($userid) {
 	$user = App\User::find($userid);
 	$edits = App\EditedChapterText::where('userid',$userid)
+				->where('status',0)
 				->with('chapterText')
 				->orderBy("originalId")->get();
 	return view('manage-edits-user',['user'=>$user,'edits'=>$edits]);
 })->middleware('masteruser')->name('manage-edits-user');
+
+Route::post('accept-edit', function (Illuminate\Http\Request $request) {
+	$data = $request->all();
+	$edit = App\EditedChapterText::find($data['id']);
+	$edit->accept();
+	return response()->json(array('msg'=> "yes"), 200);
+})->middleware('masteruser');
+
+Route::post('reject-edit', function (Illuminate\Http\Request $request) {
+	$data = $request->all();
+	$edit = App\EditedChapterText::find($data['id']);
+	$edit->reject();
+	return response()->json(array('msg'=> "yes"), 200);
+})->middleware('masteruser');
 
 Auth::routes(['register' => false]);
 
