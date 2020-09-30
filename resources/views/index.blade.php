@@ -50,6 +50,10 @@
 			background-color: #F2863F;
             margin-bottom: 2em;
 		}
+        a {
+            color:black;
+            text-decoration: underline;
+        }
 	</style>
 </head>
 <body>
@@ -92,6 +96,9 @@
                         {{$user->name}}<br>
                         @if ($masteruser)
                             <a href="{{ route('manage-edits') }}">Manage Edits</a> | 
+                        @endif
+                        @if ($user->email == 'vani.murarka@gmail.com')
+                            <a href="{{route('add-content')}}">Add Content</a> | 
                         @endif
                         <a href="{{ route('logout') }}">Logout</a>
                     @endif 

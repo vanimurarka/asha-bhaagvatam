@@ -101,6 +101,17 @@ Route::post('reject-edit', function (Illuminate\Http\Request $request) {
 	return response()->json(array('msg'=> "yes"), 200);
 })->middleware('masteruser');
 
+Route::get('add-content', function () {
+	$books = App\Book::get();
+	return view('add-content',['books'=>$books]);
+})->middleware('auth')->name('add-content');
+
+Route::post('add-book', array('as' => 'add-book', 'uses' => 'BookController@add'))->middleware('auth');
+
+Route::post('add-chapters', array('as' => 'add-chapters', 'uses' => 'ContentController@addChapters'))->middleware('auth');
+
+Route::post('import-chapter', array('as' => 'import-chapter', 'uses' => 'ContentController@importChapters'))->middleware('auth');
+
 Auth::routes(['register' => false]);
 
 Route::get('logout', function () {
