@@ -116,9 +116,9 @@
 						<option value="{{$book->id}}">{{$book->nameE}}</option>
 					@endforeach
 				</select>
+				Filename <input type="text" name="filename"><br>
 				Chapter <input type="number" name="chapter">
 				Sheet Number <input type="number" name="sheet">
-				Filename <input type="text" name="filename">
 				<input type="submit" name="submit">
 			</form>
 		</div>
