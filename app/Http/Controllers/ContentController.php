@@ -52,9 +52,21 @@ class ContentController extends Controller
             $text->number = $row['No'];
             $text->lineNumber = $row['SNo'];
             $text->text1 = $row['Sanskrit'];
-            $text->text2 = $row['English'];
-            $text->save();
+            if (strlen($row['English'])>0)
+                $text->text2 = $row['English'];
+            else
+                $text->text2 = "";
+            try {
+                $text->save();
+            } catch (\Exception $e) {
+                $chapterTextToDelete = ChapterText::where("chapterId",$chapterid);
+                $chapterTextToDelete->delete();
+                echo "deleted inserted records of chapterid ".$chapterid."<br>";
+                echo $e;
+                
+                break;
+            }            
         }
-        echo "done";
+        echo "done";                    
     }
 }
