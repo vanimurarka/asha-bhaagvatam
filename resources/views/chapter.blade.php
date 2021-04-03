@@ -140,9 +140,18 @@
 		
 		<br>
 		<div id="content">
-			<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
-				{{$chapter->book_id}} {{$chapter->nameE}}
-        	</div>
+			@if ($chapter->book_id == 1)
+				<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
+					@php
+						$audiofilename = $chapter->book_id."-".$chapter->nameE;
+					@endphp
+					<audio controls preload="none">
+		            	<source src="../../audio/{{$audiofilename}}.m4a" type="audio/mpeg">
+		            	...
+		            </audio>
+		            <br/>
+	        	</div>
+        	@endif
 			@foreach ($lines as $line)
 				<!-- o in id means original -->
 				@php
