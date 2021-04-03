@@ -139,8 +139,8 @@
 		</div>
 		
 		<br>
-		xyzzz
 		<div id="content">
+			xyzzz
 			@foreach ($lines as $line)
 				<!-- o in id means original -->
 				@php
