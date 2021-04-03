@@ -140,7 +140,9 @@
 		
 		<br>
 		<div id="content">
-			xyzzz
+			<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
+				{{$chapter->book_id}} {{$chapter->nameE}}
+        	</div>
 			@foreach ($lines as $line)
 				<!-- o in id means original -->
 				@php
