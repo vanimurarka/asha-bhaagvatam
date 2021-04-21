@@ -140,13 +140,13 @@
 		
 		<br>
 		<div id="content">
-			@if ($chapter->book_id == 1)
+			@if ($chapter->book_id == 2)
 				<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
 					@php
 						$audiofilename = $chapter->book_id."-".$chapter->nameE;
 					@endphp
 					<audio controls preload="none">
-		            	<source src="../../audio/{{$audiofilename}}.m4a" type="audio/mpeg">
+		            	<source src="../../audio/{{$chapter->book_id}}/{{$audiofilename}}.m4a" type="audio/mpeg">
 		            	...
 		            </audio>
 		            <br/>
