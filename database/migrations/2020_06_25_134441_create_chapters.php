@@ -14,7 +14,7 @@ class CreateChapters extends Migration
     public function up()
     {
         Schema::create('chapters', function (Blueprint $table) {
-            $table->tinyIncrements('id');
+            $table->increments('id');
             $table->tinyInteger('order')->unique();
             $table->tinyInteger('book_id');
             $table->string('nameS');

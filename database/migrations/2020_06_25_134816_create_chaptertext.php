@@ -15,7 +15,7 @@ class CreateChaptertext extends Migration
     {
         Schema::create('chapterText', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->tinyInteger('chapterId');
+            $table->integer('chapterId');
             $table->string('type');
             $table->tinyInteger('number');
             $table->tinyInteger('lineNumber');
