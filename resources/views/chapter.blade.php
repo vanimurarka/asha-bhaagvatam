@@ -140,7 +140,7 @@
 		
 		<br>
 		<div id="content">
-			@if ($chapter->book_id <= 2)
+			@if ($chapter->book_id <= 3)
 				<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
 					@php
 						$audiofilename = $chapter->book_id."-".$chapter->nameE;
