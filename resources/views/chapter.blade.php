@@ -142,16 +142,22 @@
 		<div id="content">
 			@if ($chapter->book_id <= 4)
 				@php
-					$exists = "no";
+					$exists = false;
 					$extn = "";
 					$filePublicPath = 'audio/'.$chapter->book_id . "/";
 					$audiofilename = $chapter->book_id."-".$chapter->nameE;
 					if (file_exists(public_path($filePublicPath.$audiofilename.".m4a")))
+					{
+						$exists = true
     					$extn = ".m4a";
-    				elseif (file_exists(public_path($filePublicPath.$audiofilename.".mp3"))) {
+					}
+    				elseif (file_exists(public_path($filePublicPath.$audiofilename.".mp3"))) 
+    				{
+    					$exists = true;
     					$extn = ".mp3";
+    				}
     			@endphp
-    			@if ($exists !== "no")
+    			@if ($exists)
 					<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
 						<audio controls preload="none">
 			            	<source src="../../audio/{{$chapter->book_id}}/{{$audiofilename}}{{$extn}}" type="audio/mpeg">
