@@ -148,7 +148,7 @@
 					$audiofilename = $chapter->book_id."-".$chapter->nameE;
 					if (file_exists(public_path($filePublicPath.$audiofilename.".m4a")))
 					{
-						$exists = true
+						$exists = true;
     					$extn = ".m4a";
 					}
     				elseif (file_exists(public_path($filePublicPath.$audiofilename.".mp3"))) 
