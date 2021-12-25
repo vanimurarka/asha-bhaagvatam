@@ -140,17 +140,26 @@
 		
 		<br>
 		<div id="content">
-			@if ($chapter->book_id <= 3)
-				<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
-					@php
-						$audiofilename = $chapter->book_id."-".$chapter->nameE;
-					@endphp
-					<audio controls preload="none">
-		            	<source src="../../audio/{{$chapter->book_id}}/{{$audiofilename}}.m4a" type="audio/mpeg">
-		            	...
-		            </audio>
-		            <br/>
-	        	</div>
+			@if ($chapter->book_id <= 4)
+				@php
+					$exists = "no";
+					$extn = "";
+					$filePublicPath = 'audio/'.$chapter->book_id . "/";
+					$audiofilename = $chapter->book_id."-".$chapter->nameE;
+					if (file_exists(public_path($filePublicPath.$audiofilename.".m4a")))
+    					$extn = ".m4a";
+    				elseif (file_exists(public_path($filePublicPath.$audiofilename.".mp3"))) {
+    					$extn = ".mp3";
+    			@endphp
+    			@if ($exists !== "no")
+					<div style="margin-top:20px;margin-bottom:20px;text-align: center;font-weight: bold;font-size: 22px;">
+						<audio controls preload="none">
+			            	<source src="../../audio/{{$chapter->book_id}}/{{$audiofilename}}{{$extn}}" type="audio/mpeg">
+			            	...
+			            </audio>
+			            <br/>
+		        	</div>
+	        	@endif
         	@endif
 			@foreach ($lines as $line)
 				<!-- o in id means original -->
