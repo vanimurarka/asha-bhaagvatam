@@ -59,8 +59,8 @@ class ContentController extends Controller
             try {
                 $text->save();
             } catch (\Exception $e) {
-                //$chapterTextToDelete = ChapterText::where("chapterId",$chapterid);
-                //$chapterTextToDelete->delete();
+                $chapterTextToDelete = ChapterText::where("chapterId",$chapterid);
+                $chapterTextToDelete->delete();
                 echo "deleted inserted records of chapterid ".$chapterid."<br>";
                 echo $e;
                 
