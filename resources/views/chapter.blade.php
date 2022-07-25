@@ -140,7 +140,7 @@
 		
 		<br>
 		<div id="content">
-			@if ($chapter->book_id <= 13)
+			@if ($chapter->book_id <= 14)
 				@php
 					$exists = false;
 					$extn = "";
