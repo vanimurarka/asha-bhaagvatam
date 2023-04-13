@@ -40,7 +40,7 @@ class ContentController extends Controller
         $data = $request->all();
         $filePath = base_path('content/'.$data['filename']);
         Log::info($filePath);
-        Log::info(File::exists($myfile));
+        Log::info(\File::exists($myfile));
         $collection = (new FastExcel)->sheet($data['sheet'])->import($filePath);
         // dd($collection);
         $chapter = Chapter::where("book_id",$data["book_id"])
