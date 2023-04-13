@@ -41,7 +41,7 @@ class ContentController extends Controller
         $filePath = base_path('content/'.$data['filename']);
         Log::info($filePath);
         Log::info(\File::exists($filePath));
-        $content = File::get($filePath);
+        $content = \File::get($filePath);
         dd($content);
         $collection = (new FastExcel)->sheet($data['sheet'])->import($filePath);
         // dd($collection);
