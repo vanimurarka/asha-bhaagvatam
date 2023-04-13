@@ -7,6 +7,7 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use App\Book;
 use App\Chapter;
 use App\ChapterText;
+use Log;
 
 class ContentController extends Controller
 {
